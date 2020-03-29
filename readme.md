@@ -1,6 +1,9 @@
 # PickleJar3
 
-Something I wrote a while ago for storing data.
+**Do not use, under development**
+
+Something I wrote a while ago for storing data. I want to flush it out into
+something better.
 
 # MIT License
 
