@@ -7,16 +7,21 @@
 import pickle
 
 class PickleJar(object):
-    def __init__(self, fname, buffer_size=500):
+    def __init__(self):
+        self.fd = None
+        self.buffer = {}
+
+    def __del__(self):
+        self.close()
+
+    def init(self, fname, buffer_size=500):
         self.fd = open(fname, 'wb')
         self.buffer = {}
         self.buffer_size = buffer_size
         self.counter = 0
 
-    def __del__(self):
-        self.close()
-
     def push(self, topic, data):
+        if not self.fd: raise Exception("PickleJar.init() not set")
         # self.buffer.append(data)
         if topic not in self.buffer:
             self.buffer[topic] = []
@@ -26,10 +31,24 @@ class PickleJar(object):
             self.write()
             self.counter = 0
 
+    def read(self, fname):
+        with open(fname, 'rb') as f:
+            d = f.read()
+            print(len(d))
+            d = pickle.loads(d)
+            print(d)
+
     def write(self):
-        for d in self.buffer:
-            pickle.dump(d, self.fd)
+        if not self.fd: raise Exception("PickleJar.init() not set")
+        # for d in self.buffer:
+        #     pickle.dump(d, self.fd)
+        self.fd.write(pickle.dumps(self.buffer))
+        print("w")
+        print(self.fd)
         self.buffer = {}
 
     def close(self):
-        self.fd.close()
+        if self.fd:
+            if len(self.buffer) > 0:
+                self.write()
+            self.fd.close()
