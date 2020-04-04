@@ -5,6 +5,27 @@
 Something I wrote a while ago for storing data. I want to flush it out into
 something better.
 
+```python
+#!/usr/bin/env python3
+import sys
+from picklejar3.picklejar import PickleJar
+
+
+pj = PickleJar()
+pj.init("bob.pickle", 3)
+
+for i in range(9):
+    pj.push("a", i)
+
+pj.push("b", 3.33)
+pj.push("d", -1200)
+
+pj.close()
+
+pj.read("bob.pickle")
+print(pj.buffer)
+```
+
 # MIT License
 
 **Copyright (c) 2020 Kevin J. Walchko**

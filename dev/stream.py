@@ -9,6 +9,11 @@ pj.init("bob.pickle", 3)
 
 for i in range(9):
     pj.push("a", i)
+
+pj.push("b", 3.33)
+pj.push("d", -1200)
+
 pj.close()
 
 pj.read("bob.pickle")
+print(pj.buffer)
